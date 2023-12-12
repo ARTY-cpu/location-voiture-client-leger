@@ -70,12 +70,21 @@ header {
 }
 
 .navbar-nav a {
-  margin-right: 15px;
   text-decoration: none;
   color: #007bff; /* Couleur des liens Bootstrap */
+}
+
+/* Applique la marge uniquement sur les écrans de taille moyenne (md) et supérieure */
+@media (min-width: 992px) {
+  .navbar-nav a {
+    margin-right: 15px;
+  }
 }
 
 .nav-link-hover:hover {
   color: white;
 }
+
+
+
 </style>

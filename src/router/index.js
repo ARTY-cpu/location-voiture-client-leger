@@ -13,7 +13,7 @@ import AppOptions from '@/components/AppOptions.vue';
 const routes = [
   // ... (tes routes existantes)
   {
-    path: '/:catchAll(.*)',
+    path: '/:catchAll(.*)', //routes inexistantes redirigées vers l'accueil
     redirect: '/',
   },
   {
