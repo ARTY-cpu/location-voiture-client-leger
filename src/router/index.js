@@ -9,6 +9,7 @@ import AppInscription from '@/components/AppInscription.vue';
 import AppConnexion from '@/components/AppConnexion.vue';
 import AppDashboard from '@/components/AppDashboard.vue';
 import AppOptions from '@/components/AppOptions.vue';
+import AppSupervisor from '@/components/AppSupervisor.vue';
 
 const routes = [
   // ... (tes routes existantes)
@@ -56,6 +57,12 @@ const routes = [
     path: '/options',
     name: 'Options',
     component: AppOptions,
+    meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
+  },
+  {
+    path: '/supervisor',
+    name: 'Supervisor',
+    component: AppSupervisor,
     meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
   },
 ];
