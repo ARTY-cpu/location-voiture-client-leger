@@ -2,16 +2,39 @@
 
 import { createRouter, createWebHistory } from 'vue-router';
 import AppAccueil from '@/components/AppAccueil.vue';
+import AppReservation from '@/components/AppReservation.vue';
+import AppContact from '@/components/AppContact.vue';
+import AppApropos from '@/components/AppApropos.vue';
 import AppInscription from '@/components/AppInscription.vue';
 import AppConnexion from '@/components/AppConnexion.vue';
 import AppDashboard from '@/components/AppDashboard.vue';
+import AppOptions from '@/components/AppOptions.vue';
 
 const routes = [
   // ... (tes routes existantes)
   {
+    path: '/:catchAll(.*)',
+    redirect: '/',
+  },
+  {
     path: '/',
     name: 'Accueil',
     component: AppAccueil,
+  },
+  {
+    path: '/reservation',
+    name: 'Réservation',
+    component: AppReservation,
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: AppContact,
+  },
+  {
+    path: '/apropos',
+    name: 'A propos',
+    component: AppApropos,
   },
   {
     path: '/inscription',
@@ -27,6 +50,12 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: AppDashboard,
+    meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
+  },
+  {
+    path: '/options',
+    name: 'Options',
+    component: AppOptions,
     meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
   },
 ];
