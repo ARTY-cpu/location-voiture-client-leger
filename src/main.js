@@ -14,6 +14,6 @@ axios.defaults.baseURL = 'http://localhost:3000';
 const app = createApp(App);
 app.use(router);
 app.config.globalProperties.$http = axios;
-app.use(router);
+
 app.use(store);
 app.mount('#app');
