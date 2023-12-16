@@ -1,37 +1,54 @@
 <template>
-    <div class="jumbotron ">
-  <div class="container">
-    <h1 class="display-4">Location de voitures :</h1>
-    <p class="lead">Nous sommes un site internet qui loue des voitures. Nous allons du modèle classique à un goût plus ancien.</p>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">À propos de notre entreprise</h2>
+
+        <p class="card-text">
+          Bienvenue sur notre plateforme de réservation de véhicules! Cette application a été développée dans le cadre d'un projet scolaire et a pour but de démontrer les compétences acquises dans le domaine du développement web.
+        </p>
+
+        <p class="card-text">
+          Notre entreprise fictive, Prestige Auto., vous offre la possibilité de réserver des véhicules de manière simple et efficace. Nous sommes situés dans la ville de Paris, offrant des services de location de voitures de haute qualité pour répondre à vos besoins de déplacement.
+        </p>
+
+        <p class="card-text">
+          Coordonnées de l'entreprise :
+          <ul>
+            <li><strong>Adresse:</strong> Rue Firmin Guillot, Paris XV</li>
+            <li><strong>Téléphone:</strong> +01 234 567 890</li>
+            <li><strong>Email:</strong> info@prestigeauto.com</li>
+          </ul>
+        </p>
+
+        <div class="alert alert-info" role="alert">
+          <strong>Remarque :</strong> Cette application est un projet scolaire à des fins éducatives uniquement. Aucune réservation de voiture réelle n'est possible. Toute ressemblance avec une entreprise réelle est purement fortuite.
+        </div>
+
+        <!-- Simple map coords -->
+    <div class="mt-4">
+      <iframe
+        width="100%"
+        height="300"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-5.5,41,9.5,51&amp;layer=mapnik&marker=48.832806208770414%2C2.290171365454441"
+        style="border: 1px solid #ccc; border-radius: 8px;"
+      ></iframe>
+    </div>
+      </div>
+    </div>
   </div>
-</div>
-Carousel
-<!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="../img/img-1.jpg" alt="First slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../img/img-2.jpg" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="../img/img-3.jpg" alt="Third slide">
-    </div>
-  </div>
-</div> -->
-  </template>
-  
-  <script>
-  export default {
-    name: 'AppAccueil',
-    // ... logique spécifique à la page d'accueil
-  }
-  </script>
-  
-  <style scoped>
-  /* Styles spécifiques à la page d'accueil */
-  h1 {
-    color: #333;
-  }
-  </style>
-  
+</template>
+
+<script>
+export default {
+  // Add any component-specific logic here
+};
+</script>
+
+<style scoped>
+/* Add custom styles if needed */
+</style>

@@ -5,7 +5,7 @@
         <router-link class="nav-item nav-link" to="/apropos">
           À propos
         </router-link>
-        <span class="ml-2">© 2023 Prestige Auto. Tous droits réservés.</span>
+        <span class="ml-2">© 2023 Prestige Auto. Aucun droit réservé.</span>
       </div>
     </div>
   </footer>
