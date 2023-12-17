@@ -59,6 +59,9 @@
 
           <!-- Bouton de modification -->
           <button type="submit" class="btn btn-primary" @click="submitForm">Modifier</button>
+          <!-- Bouton de désactivation du compte -->
+          <button type="button" class="btn btn-danger mx-2" @click="confirmDesactivation">Désactiver le compte</button>
+
         </div>
       </div>
     </div>
@@ -124,11 +127,51 @@ export default {
           console.error('Erreur lors de la modification des données de l\'utilisateur :', error);
         });
     },
+
+    confirmDesactivation() {
+      const isConfirmed = window.confirm("Êtes-vous sûr de vouloir désactiver votre compte ? Cette action est irréversible.");
+      if (isConfirmed) {
+        this.desactiverCompte();
+      }
+    },
+    async logout() {
+      // Nettoyez l'état de connexion et redirigez l'utilisateur
+      localStorage.removeItem('token');
+      this.$store.commit('user/setLoggedIn', false);
+      this.$router.push('/connexion');
+      alert("Votre compte a été désactivé. Vous avez été déconnecté.");
+    },
+
+    async desactiverCompte() {
+      // Logique pour désactiver le compte
+      const response = await fetch('http://localhost:3000/desactiver-compte', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + this.token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mdp: this.userData.mdp,
+        }),
+      });
+
+      if (response.status === 200) {
+        // Appeler la méthode de déconnexion lorsque le compte est désactivé avec succès
+        this.logout();
+      } else {
+        // Gérer les erreurs de désactivation du compte
+        console.error('Erreur lors de la désactivation du compte :', response.statusText);
+        // Vous pouvez également gérer les erreurs spécifiques ici
+      }
+    },
   },
   togglePasswordVisibility() {
     // Toggle the password visibility based on the checkbox state
     this.showPassword = !this.showPassword;
   },
+
+
+
   mounted() {
     // Appeler la méthode pour charger les données lors du montage du composant
     this.loadUserData();
