@@ -7,6 +7,10 @@
         <div v-if="inscriptionReussie" class="alert alert-success" role="alert">
           Félicitations ! Vous vous êtes inscrit avec succès.
         </div>
+        <!-- msg erreur si inscription ko -->
+        <div v-if="erreurInscription" class="alert alert-danger" role="alert">
+          {{ messageErreur }}
+        </div>
         <form @submit.prevent="submitForm">
           <div class="mb-3">
             <label for="nom" class="form-label">Nom :</label>
@@ -55,6 +59,7 @@ export default {
     return {
       // Ajoutez une propriété pour suivre l'état de l'inscription
       inscriptionReussie: false,
+      erreurInscription: false,
       nom: '',
       prenom: '',
       adresse: '',
@@ -94,10 +99,14 @@ export default {
             this.inscriptionReussie = true;
           } else {
             // Traiter la réponse en cas d'échec (affichage d'un message d'erreur, etc.)
+            this.erreurInscription = true;
+            this.messageErreur = data.error;
             console.error('Erreur lors de l\'inscription:', data.error);
           }
         })
         .catch(error => {
+          this.erreurInscription = true;
+          this.messageErreur = error.data;
           console.error('Erreur lors de la requête:', error);
         });
     },
