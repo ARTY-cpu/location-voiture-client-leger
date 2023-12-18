@@ -17,7 +17,7 @@ export default {
 
   methods: {
     handleResize() {
-      this.isMobile = window.innerWidth <= 767;
+      this.isMobile = window.innerWidth <= 992;
     },
   },
 

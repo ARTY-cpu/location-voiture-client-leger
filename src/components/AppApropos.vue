@@ -1,8 +1,6 @@
 <template>
   <div class="container mt-5">
-    <div class="text-center mb-4">
-      <img src="logo-placeholder.png" alt="Logo" style="max-width: 150px;">
-    </div>
+    
 
 
     <div class="card">
