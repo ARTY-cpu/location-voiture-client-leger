@@ -20,7 +20,8 @@
       <!-- Contenu du menu de navigation -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <div class="navbar-nav flex-grow-1">
-          <router-link class="nav-item nav-link" to="/reservation">Réservation</router-link>
+          <router-link class="nav-item nav-link" to="/modeles">Modèles</router-link>
+          <router-link v-if="isLoggedIn" class="nav-item nav-link" to="/reservation">Réservation</router-link>
           <router-link class="nav-item nav-link" to="/contact">Contact</router-link>
           <router-link class="nav-item nav-link" to="/apropos">À propos</router-link>
         </div>

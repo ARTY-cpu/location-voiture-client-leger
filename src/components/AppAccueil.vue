@@ -6,7 +6,7 @@
       <p class="lead">Trouvez la voiture parfaite pour votre prochain voyage</p>
       <hr class="my-4">
       <p>Parcourez notre sélection de voitures de qualité et réservez dès aujourd'hui.</p>
-      <a class="btn btn-primary btn-lg" href="/reservation" role="button">Réserver une voiture</a>
+      <a class="btn btn-primary btn-lg" href="/modeles" role="button">Réserver une voiture</a>
     </div>
 
     <div class="container">
