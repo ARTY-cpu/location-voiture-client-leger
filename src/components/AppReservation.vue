@@ -25,6 +25,10 @@
         <label for="dateFin">Date de fin :</label>
         <flat-pickr v-model="dateFin" :config="dateConfigFin" class="form-control" required></flat-pickr>
       </div>
+      <div class="mb-3">
+        <label for="prix">Prix :</label>
+        <p>{{ prix.toFixed(2) }} €</p>
+      </div>
       <button type="submit" class="btn btn-primary">Réserver</button>
     </form>
   </div>
@@ -49,6 +53,7 @@ export default {
       modeles: [],
       vehicules: [],
       token: localStorage.getItem('token'),
+      prix: 0,
       dateConfigDebut: {
         minDate: 'today',
         disable: [],
@@ -107,6 +112,25 @@ export default {
       this.dateConfigFin.disable = this.dateConfigDebut.disable;
     },
 
+    calculerPrix() {
+      if (this.dateDebut && this.dateFin) {
+        // Convertissez les dates en objets Date
+        const dateDebutObj = new Date(this.dateDebut);
+        const dateFinObj = new Date(this.dateFin);
+
+        // Calcul du nombre de jours entre les deux dates
+        const diffTime = Math.abs(dateFinObj - dateDebutObj);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        const tarifJournalier = this.modeles[this.selectedModele - 1].Prix || 0;
+        console.log(tarifJournalier);
+        // Calcul du prix total
+        this.prix = diffDays * tarifJournalier;
+      } else {
+        this.prix = 0;
+      }
+    },
+
     submitReservation() {
       if (!this.selectedModele || !this.selectedVehicule || !this.dateDebut || !this.dateFin) {
         alert("Veuillez remplir tous les champs.");
@@ -147,7 +171,8 @@ export default {
   watch: {
     selectedModele: 'chargerVehicules',
     selectedVehicule: 'chargerDatesIndisponibles',
-    dateDebut: 'updateDateConfigFin', // Met à jour dateConfigFin lorsque dateDebut change
+    dateDebut: ['updateDateConfigFin', 'calculerPrix'],
+    dateFin: 'calculerPrix',
   },
 };
 </script>
