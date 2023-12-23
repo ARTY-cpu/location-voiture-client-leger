@@ -13,16 +13,17 @@
         <label for="vehicule">Véhicule :</label>
         <select v-model="selectedVehicule" class="form-select" id="vehicule" required>
           <option value="" disabled selected>Veuillez choisir le véhicule</option>
-          <option v-for="vehicule in vehicules" :key="vehicule.id" :value="vehicule.id">{{ vehicule.marque + " " + vehicule.modele }}</option>
+          <option v-for="vehicule in vehicules" :key="vehicule.id" :value="vehicule.id">{{ vehicule.marque + " " +
+            vehicule.modele }}</option>
         </select>
       </div>
       <div class="mb-3">
         <label for="dateDebut">Date de début :</label>
-        <input v-model="dateDebut" type="date" class="form-control" id="dateDebut" :min="currentDate" required>
+        <flat-pickr v-model="dateDebut" :config="dateConfigDebut" class="form-control" required></flat-pickr>
       </div>
       <div class="mb-3">
         <label for="dateFin">Date de fin :</label>
-        <input v-model="dateFin" type="date" class="form-control" id="dateFin" :min="dateDebut" required>
+        <flat-pickr v-model="dateFin" :config="dateConfigFin" class="form-control" required></flat-pickr>
       </div>
       <button type="submit" class="btn btn-primary">Réserver</button>
     </form>
@@ -31,26 +32,35 @@
 
 <script>
 import axios from 'axios';
+import FlatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
 export default {
+  components: {
+    FlatPickr,
+  },
   data() {
     return {
       selectedModele: "",
       selectedVehicule: "",
       dateDebut: null,
       dateFin: null,
-      currentDate: new Date().toISOString().split('T')[0], // Obtient la date actuelle au format YYYY-MM-DD
+      currentDate: new Date().toISOString().split('T')[0],
       modeles: [],
       vehicules: [],
       token: localStorage.getItem('token'),
+      dateConfigDebut: {
+        minDate: 'today',
+        disable: [],
+      },
+      dateConfigFin: {
+        disable: [],
+      },
     };
   },
   mounted() {
     this.chargerModeles();
     this.chargerVehicules();
-
-    // Récupérer le paramètre de la route pour initialiser le modèle sélectionné
-    //this.selectedModele = this.$route.params.modele;
   },
   methods: {
     chargerModeles() {
@@ -63,17 +73,6 @@ export default {
         });
     },
     chargerVehicules() {
-      axios.get('http://localhost:3000/vehicules')
-        .then(response => {
-          this.vehicules = response.data;
-        })
-        .catch(error => {
-          console.error('Erreur lors du chargement des véhicules :', error);
-        });
-    },
-
-    // Ajoutez cette méthode pour charger les véhicules en fonction du modèle sélectionné
-    chargerVehiculesEnFonctionDuModele() {
       if (this.selectedModele) {
         axios.get(`http://localhost:3000/vehicules?modele=${this.selectedModele}`)
           .then(response => {
@@ -84,15 +83,45 @@ export default {
           });
       }
     },
+    chargerDatesIndisponibles() {
+      if (this.selectedVehicule) {
+        axios.get(`http://localhost:3000/datesIndisponibles?vehiculeId=${this.selectedVehicule}`)
+          .then(response => {
+            this.dateConfigDebut.disable = response.data.map(date => ({
+              from: date.start,
+              to: date.end,
+            }));
+            this.dateConfigFin.disable = response.data.map(date => ({
+              from: date.start,
+              to: date.end,
+            }));
+          })
+          .catch(error => {
+            console.error('Erreur lors du chargement des dates indisponibles :', error);
+          });
+      }
+    },
+
+    updateDateConfigFin() {
+      this.dateConfigFin.minDate = this.dateDebut;
+      this.dateConfigFin.disable = this.dateConfigDebut.disable;
+    },
 
     submitReservation() {
-      // Validation des champs (à adapter selon les besoins)
       if (!this.selectedModele || !this.selectedVehicule || !this.dateDebut || !this.dateFin) {
         alert("Veuillez remplir tous les champs.");
         return;
       }
 
-      // Création de l'objet de réservation
+      // Vérifier que dateDebut est inférieure ou égale à dateFin
+      const dateDebutObj = new Date(this.dateDebut);
+      const dateFinObj = new Date(this.dateFin);
+
+      if (dateDebutObj > dateFinObj) {
+        alert("La date de début doit être antérieure ou égale à la date de fin.");
+        return;
+      }
+
       const reservationData = {
         modele: this.selectedModele,
         vehicule: this.selectedVehicule,
@@ -100,15 +129,12 @@ export default {
         dateFin: this.dateFin,
       };
 
-      console.log(reservationData)
-      // Envoi de la requête POST au backend
       axios.post('http://localhost:3000/reservations', reservationData, {
         headers: {
           'Authorization': `Bearer ${this.token}`,
         },
       })
         .then(response => {
-          // Traitement de la réponse du backend (à adapter selon les besoins)
           console.log('Réservation réussie !', response.data);
           alert('Réservation réussie !');
         })
@@ -119,8 +145,9 @@ export default {
     },
   },
   watch: {
-    // Surveillez les changements de selectedModele et appelez la méthode correspondante
-    selectedModele: 'chargerVehiculesEnFonctionDuModele',
+    selectedModele: 'chargerVehicules',
+    selectedVehicule: 'chargerDatesIndisponibles',
+    dateDebut: 'updateDateConfigFin', // Met à jour dateConfigFin lorsque dateDebut change
   },
 };
 </script>
