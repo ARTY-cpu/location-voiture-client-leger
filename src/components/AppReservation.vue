@@ -125,7 +125,7 @@ export default {
         const tarifJournalier = this.modeles[this.selectedModele - 1].Prix || 0;
         console.log(tarifJournalier);
         // Calcul du prix total
-        this.prix = diffDays * tarifJournalier;
+        this.prix = (diffDays + 1 )* tarifJournalier;
       } else {
         this.prix = 0;
       }
