@@ -38,6 +38,8 @@
 import axios from 'axios';
 import FlatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
+import router from '@/router';
+
 
 export default {
   components: {
@@ -161,6 +163,7 @@ export default {
         .then(response => {
           console.log('Réservation réussie !', response.data);
           alert('Réservation réussie !');
+          router.push('/dashboard');
         })
         .catch(error => {
           console.error('Erreur lors de la réservation :', error);
