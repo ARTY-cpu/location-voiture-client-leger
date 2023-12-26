@@ -25,7 +25,7 @@
             <td>
               <button @click="modifierrendezVous(rendezVous)" class="btn btn-warning">Modifier</button>
               <span class="mx-1"></span>
-              <button @click="supprimerrendezVous(rendezVous.id)" class="btn btn-danger">Supprimer</button>
+              <button @click="supprimerRendezVous(rendezVous.id)" class="btn btn-danger">Supprimer</button>
             </td>
           </tr>
         </tbody>
@@ -65,6 +65,27 @@ export default {
         .catch(error => {
           console.error('Erreur lors du chargement des rendez-vous :', error);
         });
+    },
+    supprimerRendezVous(rendezVousId) {
+      // Utilisez une boîte de dialogue ou un autre moyen de confirmer l'annulation
+      const confirmation = window.confirm("Êtes-vous sûr de vouloir annuler cette réservation ?");
+
+      if (confirmation) {
+        // Effectuez la requête pour annuler la réservation
+        axios.put(`http://localhost:3000/annuler-reservation/${rendezVousId}`, {}, {
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+          },
+        })
+          .then(response => {
+            // Mettez à jour la liste des rendez-vous après l'annulation
+            console.log(response);
+            this.chargerRendezVous();
+          })
+          .catch(error => {
+            console.error(`Erreur lors de l'annulation de la réservation : ${error}`);
+          });
+      }
     },
   },
   mounted() {
