@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- ... Your existing code ... -->
     <div v-if="rendezVous.length > 0">
       <h3>Vos rendez-vous :</h3>
       <table class="table">
@@ -31,6 +30,11 @@
         </tbody>
       </table>
     </div>
+    <div v-else>
+      <p>Aucun rendez-vous trouvé.</p>
+    </div>
+
+    
   </div>
 </template>
 
