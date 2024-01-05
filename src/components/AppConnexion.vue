@@ -25,57 +25,40 @@
 </template>
   
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       erreurConnexion: false,
       email: '',
       mdp: '',
+      messageErreur: '',
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       const formData = {
         email: this.email,
         mdp: this.mdp,
       };
 
-      // Utilisez Axios pour effectuer la requête POST
-      this.$http.post('/connexion', formData)
-        .then(response => response.data)
-        .then(data => {
-          console.log('Réponse du serveur:', data);
+      try {
+        const response = await axios.post('/connexion', formData);
+        const data = response.data;
 
-          if (data.success) {  // Vérifiez si la connexion a réussi
-            // Sauvegardez le token dans le stockage local
-            localStorage.setItem('token', data.token);
-
-            // Exemple de mise à jour du store après une connexion réussie
-            this.$store.commit('user/setLoggedIn', true);
-
-            // Redirigez l'utilisateur vers la page d'accueil ou une autre page après la connexion réussie
-            this.$router.push('/dashboard');
-          } else {
-            // Mettez à jour la propriété d'état pour afficher le message d'erreur
-            this.erreurConnexion = true;
-            console.log('erreurConnexion:', this.erreurConnexion);
-            this.messageErreur = data.error || 'Erreur de connexion. Veuillez vérifier vos informations.';
-
-          }
-        })
-        .catch(error => {
-          // Mettez à jour la propriété d'état pour afficher le message d'erreur, fix stupide, car else jamais executé
-          //console.error('Erreur lors de la requête:', error);
-          if (error.response && error.response.data && error.response.data.error) {
-            // Mettez à jour le message d'erreur en fonction de la réponse du serveur
-            this.erreurConnexion = true;
-            this.messageErreur = error.response.data.error;
-          } else {
-            // Si la réponse ne contient pas de champ "error", utilisez un message d'erreur générique
-            this.erreurConnexion = true;
-            this.messageErreur = 'Erreur de connexion. Veuillez vérifier vos informations.';
-          }
-        });
+        if (data.success) {
+          localStorage.setItem('token', data.token);
+          this.$store.commit('user/setLoggedIn', true);
+          this.$router.push('/dashboard');
+        } else {
+          this.erreurConnexion = true;
+          this.messageErreur = data.error || 'Erreur de connexion. Veuillez vérifier vos informations.';
+        }
+      } catch (error) {
+        this.erreurConnexion = true;
+        this.messageErreur = error.response?.data?.error || 'Erreur de connexion. Veuillez vérifier vos informations.';
+      }
     },
   },
 };

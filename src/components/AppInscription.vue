@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -71,7 +72,7 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       const formData = {
         nom: this.nom,
         prenom: this.prenom,
@@ -83,32 +84,27 @@ export default {
         mdp: this.mdp,
       };
 
-      // Effectuer la requête POST vers le serveur
-      fetch('http://localhost:3000/inscription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Réponse du serveur:', data);
-          if (data.success) {
-            // Mettez à jour la propriété d'état pour afficher le message de succès
-            this.inscriptionReussie = true;
-          } else {
-            // Traiter la réponse en cas d'échec (affichage d'un message d'erreur, etc.)
-            this.erreurInscription = true;
-            this.messageErreur = data.error;
-            console.error('Erreur lors de l\'inscription:', data.error);
-          }
-        })
-        .catch(error => {
-          this.erreurInscription = true;
-          this.messageErreur = error.data;
-          console.error('Erreur lors de la requête:', error);
+      try {
+        const response = await axios.post('http://localhost:3000/inscription', formData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
+
+        console.log('Réponse du serveur:', response.data);
+
+        if (response.data.success) {
+          this.inscriptionReussie = true;
+        } else {
+          this.erreurInscription = true;
+          this.messageErreur = response.data.error;
+          console.error('Erreur lors de l\'inscription:', response.data.error);
+        }
+      } catch (error) {
+        this.erreurInscription = true;
+        this.messageErreur = error.message;
+        console.error('Erreur lors de la requête:', error);
+      }
     },
   },
 };

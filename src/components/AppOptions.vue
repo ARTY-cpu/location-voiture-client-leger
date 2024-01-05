@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 /* eslint-disable no-unused-vars */
 export default {
   data() {
@@ -143,27 +144,30 @@ export default {
     },
 
     async desactiverCompte() {
-      // Logique pour désactiver le compte
-      const response = await fetch('http://localhost:3000/desactiver-compte', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + this.token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      try {
+        const response = await axios.post('http://localhost:3000/desactiver-compte', {
           mdp: this.userData.mdp,
-        }),
-      });
+        }, {
+          headers: {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (response.status === 200) {
-        // Appeler la méthode de déconnexion lorsque le compte est désactivé avec succès
-        this.logout();
-      } else {
-        // Gérer les erreurs de désactivation du compte
-        console.error('Erreur lors de la désactivation du compte :', response.statusText);
+        if (response.status === 200) {
+          // Appeler la méthode de déconnexion lorsque le compte est désactivé avec succès
+          this.logout();
+        } else {
+          // Gérer les erreurs de désactivation du compte
+          console.error('Erreur lors de la désactivation du compte :', response.statusText);
+          // Vous pouvez également gérer les erreurs spécifiques ici
+        }
+      } catch (error) {
+        // Gérer les erreurs d'Axios
+        console.error('Erreur lors de la désactivation du compte :', error.message);
         // Vous pouvez également gérer les erreurs spécifiques ici
       }
-    },
+    }
   },
   togglePasswordVisibility() {
     // Toggle the password visibility based on the checkbox state
