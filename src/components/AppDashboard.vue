@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="rendezVous.length > 0">
-      <h3>Vos rendez-vous :</h3>
+      <h3>Vos rendez-vous en attente:</h3>
       <table class="table">
         <thead>
           <tr>
@@ -63,12 +63,12 @@
             <div class="mb-3">
               <label for="dateDebut">Date de début :</label>
               <flat-pickr v-model="rendezVousSelectionne.date_reservation_1" :config="dateConfigDebut"
-                class="form-control" required></flat-pickr>
+                :value="rendezVousSelectionne.date_reservation_1" class="form-control" required></flat-pickr>
             </div>
             <div class="mb-3">
               <label for="dateFin">Date de fin :</label>
-              <flat-pickr v-model="rendezVousSelectionne.date_reservation_2" :config="dateConfigFin" class="form-control"
-                required></flat-pickr>
+              <flat-pickr v-model="rendezVousSelectionne.date_reservation_2" :config="dateConfigFin"
+                :value="rendezVousSelectionne.date_reservation_2" class="form-control" required></flat-pickr>
             </div>
             <div class="mb-3">
               <label for="prix">Prix :</label>
@@ -178,6 +178,7 @@ export default {
       this.rendezVousSelectionne.date_reservation_2 = rendezVous.date_reservation_2;
 
       console.log(this.rendezVousSelectionne.date_reservation_1);
+      console.log(this.rendezVousSelectionne.date_reservation_2);
 
       // Set the selected modele based on rendezVous.Categorie
       this.selectedModele = rendezVous.categorie_id;
@@ -192,24 +193,30 @@ export default {
       $('#modifierRdvModal').modal('show');
     },
     validerModification() {
-      // Implement the logic to validate and submit the modification
-      // For example, use axios to send a PUT request with the modified data
+      // Vérifiez si la date de fin est supérieure ou égale à la date de début
+      if (new Date(this.rendezVousSelectionne.date_reservation_2) < new Date(this.rendezVousSelectionne.date_reservation_1)) {
+        alert("La date de fin doit être supérieure ou égale à la date de début.");
+        return; // Arrêtez la validation si la condition n'est pas satisfaite
+      }
+
+      // Implémentez la logique pour valider et soumettre la modification
       axios.put(`http://localhost:3000/modifier-rendezvous/${this.rendezVousSelectionne.id}`, this.rendezVousSelectionne, {
         headers: {
           'Authorization': `Bearer ${this.token}`,
         },
       })
         .then(response => {
-          // Close the Bootstrap modal after successful modification
+          // Fermez la modal Bootstrap après la modification réussie
           $('#modifierRdvModal').modal('hide');
           console.log(response);
-          // Refresh the list of appointments
+          // Rafraîchissez la liste des rendez-vous
           this.chargerRendezVous();
         })
         .catch(error => {
           console.error(`Erreur lors de la modification du rendez-vous : ${error}`);
         });
     },
+
 
 
 
