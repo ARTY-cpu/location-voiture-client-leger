@@ -265,10 +265,20 @@ export default {
       this.dateConfigFin.disable = this.dateConfigDebut.disable;
     },
     calculerPrix() {
-      if (this.dateDebut && this.dateFin) {
+      if (
+        this.rendezVousSelectionne.date_reservation_1 &&
+        this.rendezVousSelectionne.date_reservation_2
+      ) {
         // Convertissez les dates en objets Date
-        const dateDebutObj = new Date(this.dateDebut);
-        const dateFinObj = new Date(this.dateFin);
+        const dateDebutObj = new Date(this.rendezVousSelectionne.date_reservation_1);
+        const dateFinObj = new Date(this.rendezVousSelectionne.date_reservation_2);
+
+        // Vérifiez si la date de fin est supérieure ou égale à la date de début
+        if (dateFinObj < dateDebutObj) {
+          alert("La date de fin doit être supérieure ou égale à la date de début.");
+          this.prix = 0; // Remettez le prix à zéro si la condition n'est pas satisfaite
+          return;
+        }
 
         // Calcul du nombre de jours entre les deux dates
         const diffTime = Math.abs(dateFinObj - dateDebutObj);
@@ -282,7 +292,6 @@ export default {
         this.prix = 0;
       }
     },
-
   },
   mounted() {
     this.chargerRendezVous();
@@ -291,6 +300,8 @@ export default {
   watch: {
     selectedModele: 'chargerVehicules',
     selectedVehicule: 'chargerDatesIndisponibles',
+    'rendezVousSelectionne.date_reservation_1': ['updateDateConfigFin', 'calculerPrix'],
+    'rendezVousSelectionne.date_reservation_2': 'calculerPrix',
     dateDebut: ['updateDateConfigFin', 'calculerPrix'],
     dateFin: 'calculerPrix',
   },
