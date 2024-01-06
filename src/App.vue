@@ -1,10 +1,10 @@
-<!-- src/views/Accueil.vue -->
+<!-- src/App.vue -->
 
 <template>
   <div>
     <Header />
     
-    <!-- Le reste de ton contenu actuel -->
+    <!-- reste contenu si besoin-->
     <div id="app">
     <router-view></router-view>
   </div>
@@ -22,6 +22,6 @@ export default {
     Header,
     Footer
   }
-  // Le reste de ton script
+  // reste script si besoin
 }
 </script>

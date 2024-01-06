@@ -13,7 +13,7 @@ import AppSupervisor from '@/components/AppSupervisor.vue';
 import AppModeles from '@/components/AppModeles.vue';
 
 const routes = [
-  // ... (tes routes existantes)
+  // routes existantes
   {
     path: '/:catchAll(.*)', //routes inexistantes redirigées vers l'accueil
     redirect: '/',
@@ -22,7 +22,7 @@ const routes = [
     path: '/',
     name: 'Accueil',
     component: AppAccueil,
-  },{
+  }, {
     path: '/modeles',
     name: 'Modèles',
     component: AppModeles,
@@ -31,7 +31,7 @@ const routes = [
     path: '/reservation',
     name: 'Réservation',
     component: AppReservation,
-    meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
+    meta: { requiresAuth: true }, // route necessite auth
   },
   {
     path: '/contact',
@@ -57,19 +57,19 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: AppDashboard,
-    meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
+    meta: { requiresAuth: true }, // route necessite auth
   },
   {
     path: '/options',
     name: 'Options',
     component: AppOptions,
-    meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
+    meta: { requiresAuth: true }, // route necessite auth
   },
   {
     path: '/supervisor',
     name: 'Supervisor',
     component: AppSupervisor,
-    meta: { requiresAuth: true }, // Indique que cette route nécessite une authentification
+    meta: { requiresAuth: true }, // route necessite auth
   },
 ];
 

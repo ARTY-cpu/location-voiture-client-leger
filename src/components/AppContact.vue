@@ -1,40 +1,35 @@
+<!-- AppContact.vue -->
+
 <template>
   <div class="container mt-5">
-    
-
     <div class="card">
       <div class="card-body">
-        <!-- Display a success or error message -->
+        <!-- message succes -->
         <div v-if="message"
           :class="{ 'alert': true, 'alert-success': isMessageSuccess, 'alert-danger': !isMessageSuccess }">
           {{ message }}
         </div>
-
-
         <h2 class="card-title">Contactez-nous</h2>
         <p class="card-text">N'hésitez pas à nous contacter pour toute question ou demande d'information.</p>
-
-        <!-- Contact Form -->
+        <!-- Contact -->
         <form @submit.prevent="submitForm">
-          <!-- Name Input -->
+          <!-- Nom -->
           <div class="mb-3">
             <label for="name" class="form-label">Nom :</label>
             <input type="text" class="form-control" id="name" v-model="formData.name" required>
           </div>
-
-          <!-- Email Input -->
+          <!-- Email -->
           <div class="mb-3">
             <label for="email" class="form-label">Email :</label>
             <input type="email" class="form-control" id="email" v-model="formData.email" required>
           </div>
-
-          <!-- Message Textarea -->
+          <!-- msg -->
           <div class="mb-3">
             <label for="message" class="form-label">Message :</label>
             <textarea class="form-control" id="message" rows="5" v-model="formData.message" required></textarea>
           </div>
-
-          <!-- Submit Button -->
+          <!-- autres champs si besoin -->
+          <!-- bouton envoi -->
           <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
       </div>
@@ -66,7 +61,7 @@ export default {
 
         if (response.ok) {
           console.log('Form data sent successfully.');
-          // Optionally, reset the form data after successful submission
+          // soumission reset forcé
           this.formData = {
             name: '',
             email: '',
@@ -84,5 +79,5 @@ export default {
 </script>
 
 <style scoped>
-/* Add custom styles here if needed */
+/* style à ajouter */
 </style>

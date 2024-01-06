@@ -1,3 +1,5 @@
+<!-- AppFooter.vue -->
+
 <template>
   <footer class="footer">
     <div class="container">
@@ -13,22 +15,15 @@
 
 <script>
 export default {
-  // ... (your existing component options)
-
   methods: {
     handleResize() {
       this.isMobile = window.innerWidth <= 992;
     },
   },
-
-  // ... (your existing component options)
 };
 </script>
 
 <style scoped>
-/* Styles spécifiques au composant */
-
-
 .footer {
   background-color: #cecece;
   color: #333;
@@ -52,7 +47,7 @@ export default {
   text-overflow: ellipsis;
 }
 
-/* Media query for desktop styles */
+/* Media query pour desktop */
 @media screen and (min-width: 992px) {
   .footer {
     position: fixed;

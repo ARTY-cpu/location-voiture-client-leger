@@ -1,3 +1,5 @@
+<!-- AppInscription.vue -->
+
 <template>
   <div class="container">
     <div class="card mt-5">
@@ -58,7 +60,6 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      // Ajoutez une propriété pour suivre l'état de l'inscription
       inscriptionReussie: false,
       erreurInscription: false,
       nom: '',

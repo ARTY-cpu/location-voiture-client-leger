@@ -1,3 +1,5 @@
+<!-- AppModeles.vue -->
+
 <template>
   <div class="container">
     <h2>Modèles de Voitures</h2>
@@ -68,17 +70,21 @@ export default {
 
 <style scoped>
 .card {
-  max-height: 100%; /* Hauteur maximale pour toutes les cartes */
+  max-height: 100%;
+  /* Hauteur maximale pour toutes les cartes */
   display: flex;
   flex-direction: column;
 }
 
 .card-img-top {
-  height: 200px; /* Set a fixed height for the images (adjust as needed) */
-  object-fit: cover; /* Ensure images maintain aspect ratio and cover the entire space */
+  height: 200px;
+  /* hauteur fixe img */
+  object-fit: cover;
+  /* aspect ratio image espace */
 }
 
 .card-body {
-  flex: 1; /* Les cartes ont la même hauteur */
+  flex: 1;
+  /* Les cartes ont la même hauteur */
 }
 </style>

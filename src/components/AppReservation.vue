@@ -1,3 +1,5 @@
+<!-- AppReservation.vue -->
+
 <template>
   <div class="container">
     <h2>Réservation</h2>
@@ -116,7 +118,7 @@ export default {
 
     calculerPrix() {
       if (this.dateDebut && this.dateFin) {
-        // Convertissez les dates en objets Date
+        // Convertir les dates en objets Date
         const dateDebutObj = new Date(this.dateDebut);
         const dateFinObj = new Date(this.dateFin);
 
@@ -127,7 +129,7 @@ export default {
         const tarifJournalier = this.modeles[this.selectedModele - 1].Prix || 0;
         console.log(tarifJournalier);
         // Calcul du prix total
-        this.prix = (diffDays + 1 )* tarifJournalier;
+        this.prix = (diffDays + 1) * tarifJournalier;
       } else {
         this.prix = 0;
       }

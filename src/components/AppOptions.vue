@@ -1,3 +1,5 @@
+<!-- AppOptions.vue -->
+
 <template>
   <div class="container">
     <div class="card mt-5">
@@ -71,6 +73,7 @@
 <script>
 import axios from 'axios';
 /* eslint-disable no-unused-vars */
+//necessaire pour les erreurs
 export default {
   data() {
     return {
@@ -91,7 +94,7 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          // Mettez à jour les données du composant avec les données de l'utilisateur
+          // Mettre à jour les données du composant avec les données de l'utilisateur
           this.userData = data;
         })
         .catch(error => {
@@ -113,7 +116,7 @@ export default {
           nom,
           prenom,
           adresse,
-          codePostal: code_postal, // Adjust field names to match server expectations
+          codePostal: code_postal,
           ville,
           telephone,
           mdp,
@@ -121,7 +124,7 @@ export default {
       })
         .then(response => response.json())
         .then(data => {
-          // Mettez à jour le message de succès si la modification réussit
+          // Mettre à jour le message de succès si la modification réussit
           this.modificationReussie = true;
         })
         .catch(error => {
@@ -136,7 +139,7 @@ export default {
       }
     },
     async logout() {
-      // Nettoyez l'état de connexion et redirigez l'utilisateur
+      // Nettoyer état de connexion et rediriger utilisateur
       localStorage.removeItem('token');
       this.$store.commit('user/setLoggedIn', false);
       this.$router.push('/connexion');
@@ -155,29 +158,27 @@ export default {
         });
 
         if (response.status === 200) {
-          // Appeler la méthode de déconnexion lorsque le compte est désactivé avec succès
+          // methode pour se déco
           this.logout();
         } else {
-          // Gérer les erreurs de désactivation du compte
+          // erreurs desactivation compte
           console.error('Erreur lors de la désactivation du compte :', response.statusText);
-          // Vous pouvez également gérer les erreurs spécifiques ici
         }
       } catch (error) {
         // Gérer les erreurs d'Axios
         console.error('Erreur lors de la désactivation du compte :', error.message);
-        // Vous pouvez également gérer les erreurs spécifiques ici
       }
     }
   },
   togglePasswordVisibility() {
-    // Toggle the password visibility based on the checkbox state
+    // mdp visible ou non
     this.showPassword = !this.showPassword;
   },
 
 
 
   mounted() {
-    // Appeler la méthode pour charger les données lors du montage du composant
+    // charger données lors de l'appel composant
     this.loadUserData();
   },
 };

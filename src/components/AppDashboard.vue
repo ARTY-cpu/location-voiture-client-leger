@@ -1,3 +1,5 @@
+<!-- AppDashboard.vue -->
+
 <template>
   <div>
     <div v-if="rendezVous.length > 0">
@@ -14,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Use rendezVous in the loop -->
+          <!-- rdv en boucle -->
           <tr v-for="rendezVous in rendezVous" :key="rendezVous.id">
             <td>{{ rendezVous.Categorie }}</td>
             <td>{{ rendezVous.voiture }}</td>
@@ -126,13 +128,13 @@ export default {
   },
   methods: {
     chargerRendezVous() {
-      // Assurez-vous que le token est présent et non vide
+      //  check token
       if (!this.token) {
         console.error('Token non disponible');
         return;
       }
 
-      // Utilisez l'en-tête Authorization pour inclure le token JWT
+      // inclure le token JWT entete
       axios.get('http://localhost:3000/listeresa', {
         headers: {
           'Authorization': `Bearer ${this.token}`,
@@ -216,12 +218,6 @@ export default {
           console.error(`Erreur lors de la modification du rendez-vous : ${error}`);
         });
     },
-
-
-
-
-
-
     chargerModeles() {
       axios.get('http://localhost:3000/modeles')
         .then(response => {
@@ -269,14 +265,14 @@ export default {
         this.rendezVousSelectionne.date_reservation_1 &&
         this.rendezVousSelectionne.date_reservation_2
       ) {
-        // Convertissez les dates en objets Date
+        // Convertir les dates en objets Date
         const dateDebutObj = new Date(this.rendezVousSelectionne.date_reservation_1);
         const dateFinObj = new Date(this.rendezVousSelectionne.date_reservation_2);
 
-        // Vérifiez si la date de fin est supérieure ou égale à la date de début
+        // Vérif si la date de fin est supérieure ou égale à la date de début
         if (dateFinObj < dateDebutObj) {
           alert("La date de fin doit être supérieure ou égale à la date de début.");
-          this.prix = 0; // Remettez le prix à zéro si la condition n'est pas satisfaite
+          this.prix = 0; //  prix à zéro si la condition ko
           return;
         }
 
@@ -295,7 +291,7 @@ export default {
   },
   mounted() {
     this.chargerRendezVous();
-    this.chargerModeles(); // Ajout de cette ligne
+    this.chargerModeles();
   },
   watch: {
     selectedModele: 'chargerVehicules',
