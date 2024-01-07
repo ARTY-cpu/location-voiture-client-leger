@@ -181,13 +181,18 @@ export default {
 
       console.log(this.rendezVousSelectionne.date_reservation_1);
       console.log(this.rendezVousSelectionne.date_reservation_2);
+      console.log(this.rendezVousSelectionne);
+      console.log(this.vehicules)
 
       // Set the selected modele based on rendezVous.Categorie
       this.selectedModele = rendezVous.categorie_id;
+      this.selectedVehicule = this.rendezVousSelectionne.voiture_id;
+      console.log('voiture ' + this.rendezVousSelectionne.voiture_id)
 
       // Fetch vehicules for the selected modele
       this.chargerVehicules();
 
+      console.log(this.vehicules);
       // Set the selected vehicule based on rendezVous.voiture
       this.selectedVehicule = rendezVous.voiture_id;
 
@@ -232,6 +237,11 @@ export default {
         axios.get(`http://localhost:3000/vehicules?modele=${this.selectedModele}`)
           .then(response => {
             this.vehicules = response.data;
+
+            // Mettez à jour le véhicule sélectionné si la liste des véhicules n'est pas vide
+            if (this.vehicules.length > 0) {
+              this.selectedVehicule = this.rendezVousSelectionne.voiture_id || this.vehicules[0].id;
+            }
           })
           .catch(error => {
             console.error('Erreur lors du chargement des véhicules :', error);
